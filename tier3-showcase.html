@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tier 3 Design Showcase - MaxiMax Mobile Advertising</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="styles/tier3-visuals.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            color: #FFFFFF;
+            overflow-x: hidden;
+        }
+        
+        .showcase-section {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .showcase-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .feature-demo {
+            padding: 30px;
+            border-radius: 20px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .demo-label {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #00AEEF;
+            opacity: 0.8;
+        }
+        
+        /* Particle Background */
+        #particles-bg {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Background -->
+    <div id="particles-bg" class="particle-container"></div>
+    
+    <!-- Hero Section -->
+    <section class="showcase-section">
+        <div class="showcase-title">
+            <h1 class="display-heading ultra-bold">
+                <span class="gradient-text">Tier 3 Design System</span>
+            </h1>
+            <p class="fluid-text" style="opacity: 0.8; max-width: 600px; margin: 20px auto;">
+                Professional custom design transformation showcasing advanced glass morphism, 
+                3D effects, and industry-specific features for MaxiMax Mobile Advertising
+            </p>
+        </div>
+    </section>
+    
+    <!-- Glass Morphism Showcase -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Glass Morphism Effects
+        </h2>
+        
+        <div class="showcase-grid">
+            <!-- Premium Glass -->
+            <div class="feature-demo premium-glass scroll-reveal">
+                <span class="demo-label">Premium Glass</span>
+                <h3 style="color: #EC008C; margin-bottom: 15px;">Advanced Glass Effect</h3>
+                <p style="text-align: center; opacity: 0.9;">
+                    Multi-layered glass morphism with noise texture and dynamic blur
+                </p>
+                <button class="btn-tier3 aurora" style="margin-top: 20px;">
+                    Explore Features
+                </button>
+            </div>
+            
+            <!-- Intense Glass -->
+            <div class="feature-demo glass-intense scroll-reveal">
+                <span class="demo-label">Intense Glass</span>
+                <h3 style="color: #00AEEF; margin-bottom: 15px;">High-Intensity Blur</h3>
+                <p style="text-align: center; opacity: 0.9;">
+                    Enhanced saturation with deeper blur effects for premium feel
+                </p>
+                <button class="btn-tier3 magnetic aurora">
+                    Learn More
+                </button>
+            </div>
+            
+            <!-- Dark Glass -->
+            <div class="feature-demo glass-dark scroll-reveal">
+                <span class="demo-label">Dark Glass</span>
+                <h3 style="margin-bottom: 15px;">Dark Mode Variant</h3>
+                <p style="text-align: center; opacity: 0.9;">
+                    Sophisticated dark glass effect perfect for night themes
+                </p>
+                <button class="btn-liquid">
+                    View Details
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 3D Card Effects -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            3D Depth System
+        </h2>
+        
+        <div class="showcase-grid">
+            <div class="feature-demo card-3d premium-glass scroll-scale">
+                <span class="demo-label">3D Transform</span>
+                <h3 style="color: #EC008C;">Interactive 3D Card</h3>
+                <p style="text-align: center; margin: 20px 0;">
+                    Hover to see perspective transform with depth layers
+                </p>
+                <div class="depth-shadow-intense" style="padding: 20px; background: rgba(236, 0, 140, 0.1); border-radius: 10px;">
+                    <span style="color: #00AEEF;">Z-axis: 60px</span>
+                </div>
+            </div>
+            
+            <div class="feature-demo card-premium scroll-scale">
+                <span class="demo-label">Premium Card</span>
+                <h3>Gradient Border Animation</h3>
+                <p style="text-align: center; margin: 20px 0;">
+                    Rotating conic gradient border with hover effects
+                </p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Animated Truck SVG -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Custom SVG Animations
+        </h2>
+        
+        <div style="max-width: 800px; margin: 0 auto;" class="scroll-reveal">
+            <div id="truck-container" class="premium-glass" style="padding: 40px; border-radius: 20px;">
+                <!-- Truck SVG will be inserted here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Florida Map with Heat Zones -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Interactive Heat Map
+        </h2>
+        
+        <div style="max-width: 600px; margin: 0 auto;" class="scroll-reveal">
+            <div id="map-container" class="premium-glass" style="padding: 40px; border-radius: 20px;">
+                <!-- Map will be inserted here -->
+            </div>
+        </div>
+    </section>
+    
+    <!-- Button Variations -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Premium Button Styles
+        </h2>
+        
+        <div class="showcase-grid">
+            <div class="feature-demo" style="background: transparent;">
+                <span class="demo-label">Aurora Gradient</span>
+                <button class="btn-tier3 aurora">
+                    Get Started Now
+                </button>
+            </div>
+            
+            <div class="feature-demo" style="background: transparent;">
+                <span class="demo-label">Magnetic Effect</span>
+                <button class="btn-tier3 magnetic aurora">
+                    Request Quote
+                </button>
+            </div>
+            
+            <div class="feature-demo" style="background: transparent;">
+                <span class="demo-label">Liquid Fill</span>
+                <button class="btn-liquid">
+                    Learn More
+                </button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- LED Display Animation -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            LED Billboard Display
+        </h2>
+        
+        <div style="max-width: 500px; margin: 0 auto;" class="scroll-reveal">
+            <div class="led-pixel-grid" style="background: #000; padding: 20px; border-radius: 10px;">
+                <!-- Generate LED pixels -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                      const grid = document.querySelector('.led-pixel-grid');
+                      for (let i = 0; i < 160; i++) {
+                        const pixel = document.createElement('div');
+                        pixel.className = 'led-pixel';
+                        if (Math.random() > 0.7) {
+                          pixel.classList.add('active');
+                        }
+                        grid.appendChild(pixel);
+                      }
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Morphing Shapes -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Morphing Animations
+        </h2>
+        
+        <div style="display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;">
+            <div class="morph-shape"></div>
+            <div class="morph-shape" style="animation-delay: 2s;"></div>
+            <div class="morph-shape" style="animation-delay: 4s;"></div>
+        </div>
+    </section>
+    
+    <!-- Typography Showcase -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Variable Typography
+        </h2>
+        
+        <div style="max-width: 800px; margin: 0 auto; text-align: center;">
+            <h1 class="display-heading ultra-bold" style="margin-bottom: 30px;">
+                MAXIMAX
+            </h1>
+            <h2 class="display-heading elegant" style="margin-bottom: 30px; color: #00AEEF;">
+                Mobile Billboard Advertising
+            </h2>
+            <p class="fluid-text" style="opacity: 0.8;">
+                Experience the power of variable fonts with fluid typography that adapts to any screen size
+                while maintaining perfect optical adjustments and kerning.
+            </p>
+        </div>
+    </section>
+    
+    <!-- Neon Text Effects -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Neon Glow Effects
+        </h2>
+        
+        <div style="text-align: center; background: #000; padding: 60px 20px; border-radius: 20px;">
+            <h3 class="neon-text" style="color: #EC008C; font-size: 3rem; margin-bottom: 30px;">
+                SOUTH FLORIDA
+            </h3>
+            <h3 class="neon-text" style="color: #00AEEF; font-size: 2.5rem;">
+                MOBILE ADVERTISING
+            </h3>
+        </div>
+    </section>
+    
+    <!-- Custom Icons Display -->
+    <section class="showcase-section">
+        <h2 class="headline-impact" style="text-align: center; margin-bottom: 60px;">
+            Custom Icon Library
+        </h2>
+        
+        <div class="showcase-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 30px;">
+            <!-- Icon placeholders - would need to load the SVG sprite -->
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>Billboard Truck</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>Route Planning</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>LED Display</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>Impressions</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>GPS Tracking</small>
+            </div>
+            <div style="text-align: center;">
+                <div style="width: 60px; height: 60px; margin: 0 auto 10px; background: var(--gradient-aurora); border-radius: 15px;"></div>
+                <small>Analytics</small>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer style="padding: 40px 20px; text-align: center; opacity: 0.6;">
+        <p>Tier 3 Design System Showcase - MaxiMax Mobile Advertising</p>
+        <p style="margin-top: 10px;">Crafted with precision for maximum impact</p>
+    </footer>
+    
+    <!-- Scripts -->
+    <script src="js/tier3-interactions.js"></script>
+    <script src="components/AnimatedTruck.tsx"></script>
+    <script src="components/FloridaMap.tsx"></script>
+    <script>
+        // Initialize components when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+          // Create animated truck
+          if (typeof createAnimatedTruck === 'function') {
+            createAnimatedTruck('truck-container');
+          }
+        
+          // Create Florida map
+          if (typeof createFloridaMap === 'function') {
+            createFloridaMap('map-container');
+          }
+        });
+    </script>
+</body>
+</html>

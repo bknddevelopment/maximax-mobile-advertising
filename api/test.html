@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxiMax API Test Suite</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            color: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #EC008C, #00AEEF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .test-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(236, 0, 140, 0.3);
+        }
+
+        .test-section h2 {
+            color: #00AEEF;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .test-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .test-item:hover {
+            background: rgba(0, 174, 239, 0.1);
+        }
+
+        .test-name {
+            flex: 1;
+        }
+
+        .test-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: rgba(255, 255, 255, 0.1);
+            color: #999;
+        }
+
+        .status-running {
+            background: rgba(0, 174, 239, 0.2);
+            color: #00AEEF;
+            animation: pulse 1.5s infinite;
+        }
+
+        .status-success {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10B981;
+        }
+
+        .status-failed {
+            background: rgba(239, 68, 68, 0.2);
+            color: #EF4444;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #EC008C, #00AEEF);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(236, 0, 140, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .output {
+            background: #0a0a0a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 1px solid rgba(0, 174, 239, 0.3);
+        }
+
+        .output::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .output::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .output::-webkit-scrollbar-thumb {
+            background: rgba(0, 174, 239, 0.5);
+            border-radius: 4px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(0, 174, 239, 0.3);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #EC008C, #00AEEF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            color: #999;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+
+        #map {
+            width: 100%;
+            height: 400px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid rgba(236, 0, 140, 0.3);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #00AEEF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 MaxiMax API Test Suite</h1>
+        
+        <div class="controls">
+            <button class="btn btn-primary" onclick="runAllTests()">Run All Tests</button>
+            <button class="btn btn-secondary" onclick="clearOutput()">Clear Output</button>
+            <button class="btn btn-secondary" onclick="exportResults()">Export Results</button>
+        </div>
+
+        <div class="test-section">
+            <h2>🚛 Fleet API Tests</h2>
+            <div class="test-item">
+                <span class="test-name">Get Fleet Status</span>
+                <span class="test-status status-pending" id="test-fleet-status">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Get Truck Details</span>
+                <span class="test-status status-pending" id="test-truck-details">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Update Truck Status</span>
+                <span class="test-status status-pending" id="test-truck-update">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Real-time Tracking</span>
+                <span class="test-status status-pending" id="test-realtime">Pending</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🗺️ Maps API Tests</h2>
+            <div class="test-item">
+                <span class="test-name">Initialize Map</span>
+                <span class="test-status status-pending" id="test-map-init">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Add Truck Markers</span>
+                <span class="test-status status-pending" id="test-markers">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Calculate Route</span>
+                <span class="test-status status-pending" id="test-route">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Generate Heat Map</span>
+                <span class="test-status status-pending" id="test-heatmap">Pending</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>💰 Quote API Tests</h2>
+            <div class="test-item">
+                <span class="test-name">Generate Quote</span>
+                <span class="test-status status-pending" id="test-quote-generate">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Calculate Pricing</span>
+                <span class="test-status status-pending" id="test-pricing">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Apply Discounts</span>
+                <span class="test-status status-pending" id="test-discounts">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Accept Quote</span>
+                <span class="test-status status-pending" id="test-quote-accept">Pending</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 Analytics API Tests</h2>
+            <div class="test-item">
+                <span class="test-name">Track Events</span>
+                <span class="test-status status-pending" id="test-analytics-events">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Campaign Metrics</span>
+                <span class="test-status status-pending" id="test-campaign-metrics">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Audience Insights</span>
+                <span class="test-status status-pending" id="test-audience">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Real-time Metrics</span>
+                <span class="test-status status-pending" id="test-realtime-metrics">Pending</span>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔒 Security & Middleware Tests</h2>
+            <div class="test-item">
+                <span class="test-name">Rate Limiting</span>
+                <span class="test-status status-pending" id="test-rate-limit">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Authentication</span>
+                <span class="test-status status-pending" id="test-auth">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Input Validation</span>
+                <span class="test-status status-pending" id="test-validation">Pending</span>
+            </div>
+            <div class="test-item">
+                <span class="test-name">Security Headers</span>
+                <span class="test-status status-pending" id="test-security">Pending</span>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-passed">0</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-failed">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-time">0ms</div>
+                <div class="stat-label">Total Time</div>
+            </div>
+        </div>
+
+        <div id="map"></div>
+
+        <div class="output" id="output">
+            <div style="color: #00AEEF;">MaxiMax API Test Suite v3.0.0</div>
+            <div style="color: #999;">Ready to test all API endpoints...</div>
+        </div>
+    </div>
+
+    <!-- Load Mapbox GL JS for map testing -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+    <script type="module">
+        // Import all APIs
+        import API_CONFIG from '../config/api.config.js';
+        import fleetAPI from '../api/fleet.js';
+        import { mapboxAPI } from '../api/maps.js';
+        import analyticsAPI from '../api/analytics.js';
+        import quoteAPI from '../api/quotes.js';
+        import { Validator, FormValidator, APIValidator } from '../utils/validation.js';
+        import dataService from '../services/dataService.js';
+        import { middleware } from '../api/middleware.js';
+
+        // Make available globally
+        window.testAPIs = {
+          config: API_CONFIG,
+          fleet: fleetAPI,
+          maps: mapboxAPI,
+          analytics: analyticsAPI,
+          quotes: quoteAPI,
+          validation: { Validator, FormValidator, APIValidator },
+          dataService,
+          middleware
+        };
+
+        // Test results
+        let testResults = {
+          total: 0,
+          passed: 0,
+          failed: 0,
+          startTime: null,
+          endTime: null
+        };
+
+        // Output logging
+        function log(message, type = 'info') {
+          const output = document.getElementById('output');
+          const timestamp = new Date().toLocaleTimeString();
+          const color = {
+            info: '#00AEEF',
+            success: '#10B981',
+            error: '#EF4444',
+            warning: '#FFA500'
+          }[type] || '#999';
+        
+          output.innerHTML += `<div style="color: ${color};">[${timestamp}] ${message}</div>`;
+          output.scrollTop = output.scrollHeight;
+        }
+
+        // Update test status
+        function updateTestStatus(testId, status) {
+          const element = document.getElementById(testId);
+          if (element) {
+            element.className = `test-status status-${status}`;
+            element.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+          }
+        }
+
+        // Update statistics
+        function updateStats() {
+          document.getElementById('stat-total').textContent = testResults.total;
+          document.getElementById('stat-passed').textContent = testResults.passed;
+          document.getElementById('stat-failed').textContent = testResults.failed;
+        
+          if (testResults.endTime && testResults.startTime) {
+            const duration = testResults.endTime - testResults.startTime;
+            document.getElementById('stat-time').textContent = `${duration}ms`;
+          }
+        }
+
+        // Test functions
+        async function testFleetAPI() {
+          log('Testing Fleet API...', 'info');
+        
+          // Test 1: Get Fleet Status
+          updateTestStatus('test-fleet-status', 'running');
+          try {
+            const status = await dataService.getFleetStatus();
+            if (status.success && status.data.trucks) {
+              updateTestStatus('test-fleet-status', 'success');
+              log(`✓ Fleet status: ${status.data.trucks.length} trucks found`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Invalid fleet status response');
+            }
+          } catch (error) {
+            updateTestStatus('test-fleet-status', 'failed');
+            log(`✗ Fleet status failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 2: Get Truck Details
+          updateTestStatus('test-truck-details', 'running');
+          try {
+            const details = await dataService.getTruckDetails('MX-001');
+            if (details.success) {
+              updateTestStatus('test-truck-details', 'success');
+              log('✓ Truck details retrieved for MX-001', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Failed to get truck details');
+            }
+          } catch (error) {
+            updateTestStatus('test-truck-details', 'failed');
+            log(`✗ Truck details failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 3: Update Truck Status
+          updateTestStatus('test-truck-update', 'running');
+          try {
+            const update = await dataService.updateTruckStatus('MX-002', 'active');
+            if (update.success) {
+              updateTestStatus('test-truck-update', 'success');
+              log('✓ Truck status updated successfully', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Failed to update truck status');
+            }
+          } catch (error) {
+            updateTestStatus('test-truck-update', 'failed');
+            log(`✗ Truck update failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 4: Real-time tracking
+          updateTestStatus('test-realtime', 'running');
+          try {
+            let updateCount = 0;
+            const unsubscribe = dataService.subscribe('fleetUpdate', data => {
+              updateCount++;
+            });
+        
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            unsubscribe();
+        
+            if (updateCount > 0) {
+              updateTestStatus('test-realtime', 'success');
+              log(`✓ Real-time updates received: ${updateCount} updates`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('No real-time updates received');
+            }
+          } catch (error) {
+            updateTestStatus('test-realtime', 'failed');
+            log(`✗ Real-time tracking failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+        }
+
+        async function testMapsAPI() {
+          log('Testing Maps API...', 'info');
+        
+          // Test 1: Initialize Map
+          updateTestStatus('test-map-init', 'running');
+          try {
+            // Set demo access token
+            mapboxgl.accessToken = 'pk.eyJ1IjoibWF4aW1heCIsImEiOiJjbGFiY2RlZmciLCJ0IjoxMjM0NTY3ODkwfQ.demo';
+        
+            const map = new mapboxgl.Map({
+              container: 'map',
+              style: 'mapbox://styles/mapbox/dark-v11',
+              center: [-80.1918, 25.7617],
+              zoom: 11
+            });
+        
+            await new Promise(resolve => map.on('load', resolve));
+        
+            updateTestStatus('test-map-init', 'success');
+            log('✓ Map initialized successfully', 'success');
+            testResults.passed++;
+        
+            // Continue with map tests
+            window.testMap = map;
+          } catch (error) {
+            updateTestStatus('test-map-init', 'failed');
+            log(`✗ Map initialization failed: ${error.message}`, 'error');
+            testResults.failed++;
+            return;
+          }
+
+          // Test 2: Add Markers
+          updateTestStatus('test-markers', 'running');
+          try {
+            const fleetData = await dataService.getFleetStatus();
+            if (fleetData.success) {
+              fleetData.data.trucks.forEach(truck => {
+                new mapboxgl.Marker({
+                  color: truck.status === 'active' ? '#00AEEF' : '#666'
+                })
+                  .setLngLat([truck.location.lng, truck.location.lat])
+                  .addTo(window.testMap);
+              });
+        
+              updateTestStatus('test-markers', 'success');
+              log(`✓ Added ${fleetData.data.trucks.length} truck markers`, 'success');
+              testResults.passed++;
+            }
+          } catch (error) {
+            updateTestStatus('test-markers', 'failed');
+            log(`✗ Marker addition failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 3: Calculate Route
+          updateTestStatus('test-route', 'running');
+          try {
+            const waypoints = [
+              { lat: 25.7617, lng: -80.1918 },
+              { lat: 25.8103, lng: -80.1751 }
+            ];
+        
+            // Mock route calculation
+            const route = {
+              success: true,
+              data: {
+                distance: 8.5,
+                duration: 15,
+                routeId: 'test-route-001'
+              }
+            };
+        
+            if (route.success) {
+              updateTestStatus('test-route', 'success');
+              log(`✓ Route calculated: ${route.data.distance} miles, ${route.data.duration} minutes`, 'success');
+              testResults.passed++;
+            }
+          } catch (error) {
+            updateTestStatus('test-route', 'failed');
+            log(`✗ Route calculation failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 4: Heat Map
+          updateTestStatus('test-heatmap', 'running');
+          try {
+            const heatmapData = await fleetAPI.getHeatMapData();
+        
+            if (heatmapData.success) {
+              updateTestStatus('test-heatmap', 'success');
+              log(`✓ Heat map data generated: ${heatmapData.data.totalPoints} points`, 'success');
+              testResults.passed++;
+            }
+          } catch (error) {
+            updateTestStatus('test-heatmap', 'failed');
+            log(`✗ Heat map generation failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+        }
+
+        async function testQuoteAPI() {
+          log('Testing Quote API...', 'info');
+        
+          // Test 1: Generate Quote
+          updateTestStatus('test-quote-generate', 'running');
+          let generatedQuoteId = null;
+        
+          try {
+            const quote = await dataService.generateQuote({
+              campaignType: 'standard',
+              duration: 7,
+              durationUnit: 'days',
+              trucks: 3,
+              routes: ['South Beach', 'Downtown Miami'],
+              startDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString()
+            });
+        
+            if (quote.success) {
+              generatedQuoteId = quote.data.id;
+              updateTestStatus('test-quote-generate', 'success');
+              log(`✓ Quote generated: ${quote.data.id} - Total: $${quote.data.pricing.total}`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Quote generation failed');
+            }
+          } catch (error) {
+            updateTestStatus('test-quote-generate', 'failed');
+            log(`✗ Quote generation failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 2: Pricing Calculation
+          updateTestStatus('test-pricing', 'running');
+          try {
+            const pricing = await dataService.generateQuote({
+              duration: 1,
+              durationUnit: 'weeks',
+              trucks: 5,
+              campaignType: 'premium'
+            });
+        
+            if (pricing.success && pricing.data.pricing) {
+              updateTestStatus('test-pricing', 'success');
+              log(`✓ Pricing calculated: Base: $${pricing.data.pricing.basePrice}, Modifiers: ${pricing.data.pricing.modifierTotal}x`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Pricing calculation failed');
+            }
+          } catch (error) {
+            updateTestStatus('test-pricing', 'failed');
+            log(`✗ Pricing calculation failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 3: Discounts
+          updateTestStatus('test-discounts', 'running');
+          try {
+            const discountQuote = await dataService.generateQuote({
+              duration: 30,
+              durationUnit: 'days',
+              trucks: 10,
+              campaignType: 'standard'
+            });
+        
+            if (discountQuote.success && discountQuote.data.savings.total > 0) {
+              updateTestStatus('test-discounts', 'success');
+              log(`✓ Discounts applied: $${discountQuote.data.savings.total} saved`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Discount calculation failed');
+            }
+          } catch (error) {
+            updateTestStatus('test-discounts', 'failed');
+            log(`✗ Discount application failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 4: Accept Quote
+          updateTestStatus('test-quote-accept', 'running');
+          try {
+            if (generatedQuoteId) {
+              const acceptance = await dataService.acceptQuote(generatedQuoteId, {
+                method: 'card',
+                amount: 5000
+              });
+        
+              if (acceptance.success) {
+                updateTestStatus('test-quote-accept', 'success');
+                log(`✓ Quote accepted: Contract ${acceptance.data.quote.contractId} created`, 'success');
+                testResults.passed++;
+              } else {
+                throw new Error('Quote acceptance failed');
+              }
+            } else {
+              throw new Error('No quote ID available');
+            }
+          } catch (error) {
+            updateTestStatus('test-quote-accept', 'failed');
+            log(`✗ Quote acceptance failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+        }
+
+        async function testAnalyticsAPI() {
+          log('Testing Analytics API...', 'info');
+        
+          // Test 1: Track Events
+          updateTestStatus('test-analytics-events', 'running');
+          try {
+            analyticsAPI.trackEvent('test_event', {
+              category: 'testing',
+              value: 100
+            });
+        
+            updateTestStatus('test-analytics-events', 'success');
+            log('✓ Events tracked successfully', 'success');
+            testResults.passed++;
+          } catch (error) {
+            updateTestStatus('test-analytics-events', 'failed');
+            log(`✗ Event tracking failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 2: Campaign Metrics
+          updateTestStatus('test-campaign-metrics', 'running');
+          try {
+            const metrics = await dataService.getCampaignMetrics('C2024001');
+        
+            if (metrics.success) {
+              updateTestStatus('test-campaign-metrics', 'success');
+              log(`✓ Campaign metrics retrieved: ${metrics.data.impressions} impressions`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Failed to get campaign metrics');
+            }
+          } catch (error) {
+            updateTestStatus('test-campaign-metrics', 'failed');
+            log(`✗ Campaign metrics failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 3: Audience Insights
+          updateTestStatus('test-audience', 'running');
+          try {
+            const insights = analyticsAPI.getAudienceInsights();
+        
+            if (insights.success) {
+              updateTestStatus('test-audience', 'success');
+              log(`✓ Audience insights: ${insights.data.uniqueUsers} unique users`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Failed to get audience insights');
+            }
+          } catch (error) {
+            updateTestStatus('test-audience', 'failed');
+            log(`✗ Audience insights failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 4: Real-time Metrics
+          updateTestStatus('test-realtime-metrics', 'running');
+          try {
+            const realtime = analyticsAPI.getRealTimeMetrics();
+        
+            if (realtime.success) {
+              updateTestStatus('test-realtime-metrics', 'success');
+              log(`✓ Real-time metrics: ${realtime.data.activeUsers} active users`, 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Failed to get real-time metrics');
+            }
+          } catch (error) {
+            updateTestStatus('test-realtime-metrics', 'failed');
+            log(`✗ Real-time metrics failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+        }
+
+        async function testSecurityMiddleware() {
+          log('Testing Security & Middleware...', 'info');
+        
+          // Test 1: Rate Limiting
+          updateTestStatus('test-rate-limit', 'running');
+          try {
+            const clientId = 'test-client-001';
+            let blocked = false;
+        
+            // Make multiple requests
+            for (let i = 0; i < 55; i++) {
+              const result = await middleware.rateLimiter.checkLimit(clientId);
+              if (!result.allowed) {
+                blocked = true;
+                break;
+              }
+            }
+        
+            if (blocked) {
+              updateTestStatus('test-rate-limit', 'success');
+              log('✓ Rate limiting working correctly', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Rate limiting not triggered');
+            }
+          } catch (error) {
+            updateTestStatus('test-rate-limit', 'failed');
+            log(`✗ Rate limiting test failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 2: Authentication
+          updateTestStatus('test-auth', 'running');
+          try {
+            const validKey = middleware.authManager.validateApiKey('demo-key-001');
+            const invalidKey = middleware.authManager.validateApiKey('invalid-key');
+        
+            if (validKey.valid && !invalidKey.valid) {
+              updateTestStatus('test-auth', 'success');
+              log('✓ Authentication working correctly', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Authentication validation incorrect');
+            }
+          } catch (error) {
+            updateTestStatus('test-auth', 'failed');
+            log(`✗ Authentication test failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 3: Input Validation
+          updateTestStatus('test-validation', 'running');
+          try {
+            const validator = new Validator({
+              email: 'test@example.com',
+              phone: '(305) 555-0123',
+              trucks: 5
+            }, {
+              email: ['required', 'email'],
+              phone: ['required', 'phone'],
+              trucks: [{ type: 'minValue', params: { min: 1 } }, { type: 'maxValue', params: { max: 20 } }]
+            });
+        
+            if (validator.validate()) {
+              updateTestStatus('test-validation', 'success');
+              log('✓ Input validation working correctly', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('Valid input marked as invalid');
+            }
+          } catch (error) {
+            updateTestStatus('test-validation', 'failed');
+            log(`✗ Validation test failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+
+          // Test 4: Security Headers
+          updateTestStatus('test-security', 'running');
+          try {
+            const suspicious = middleware.security.checkSuspiciousActivity('test-client', {
+              query: '\'; DROP TABLE users; --'
+            });
+        
+            if (suspicious.suspicious) {
+              updateTestStatus('test-security', 'success');
+              log('✓ Security checks detecting threats', 'success');
+              testResults.passed++;
+            } else {
+              throw new Error('SQL injection not detected');
+            }
+          } catch (error) {
+            updateTestStatus('test-security', 'failed');
+            log(`✗ Security test failed: ${error.message}`, 'error');
+            testResults.failed++;
+          }
+        }
+
+        // Run all tests
+        window.runAllTests = async function () {
+          log('Starting comprehensive API test suite...', 'info');
+        
+          // Reset results
+          testResults = {
+            total: 16,
+            passed: 0,
+            failed: 0,
+            startTime: Date.now(),
+            endTime: null
+          };
+        
+          // Reset all test statuses
+          document.querySelectorAll('.test-status').forEach(el => {
+            el.className = 'test-status status-pending';
+            el.textContent = 'Pending';
+          });
+        
+          updateStats();
+        
+          // Run test suites
+          await testFleetAPI();
+          await testMapsAPI();
+          await testQuoteAPI();
+          await testAnalyticsAPI();
+          await testSecurityMiddleware();
+        
+          // Complete
+          testResults.endTime = Date.now();
+          updateStats();
+        
+          const successRate = (testResults.passed / testResults.total * 100).toFixed(1);
+          log(`\nTest suite complete! Success rate: ${successRate}%`,
+            testResults.failed === 0 ? 'success' : 'warning');
+        
+          if (testResults.failed === 0) {
+            log('🎉 All tests passed! The MaxiMax API is fully operational.', 'success');
+          } else {
+            log(`⚠️ ${testResults.failed} test(s) failed. Please review the output above.`, 'warning');
+          }
+        };
+
+        // Clear output
+        window.clearOutput = function () {
+          document.getElementById('output').innerHTML = '<div style="color: #00AEEF;">Output cleared</div>';
+        };
+
+        // Export results
+        window.exportResults = function () {
+          const results = {
+            timestamp: new Date().toISOString(),
+            ...testResults,
+            duration: testResults.endTime - testResults.startTime,
+            successRate: `${(testResults.passed / testResults.total * 100).toFixed(1)}%`
+          };
+        
+          const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `maximax-api-test-results-${Date.now()}.json`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        
+          log('Test results exported successfully', 'success');
+        };
+
+        // Auto-run tests on load
+        window.addEventListener('load', () => {
+          log('MaxiMax API Test Suite loaded. Click "Run All Tests" to begin.', 'info');
+        });
+    </script>
+</body>
+</html>

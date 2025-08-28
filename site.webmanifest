@@ -1,0 +1,86 @@
+{
+  "name": "MaxiMax Advertising - Mobile Billboard Trucks",
+  "short_name": "MaxiMax",
+  "description": "South Florida's premier mobile LED billboard truck advertising company. 50,000+ daily impressions, GPS tracking, serving Miami-Dade, Broward & Palm Beach.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#EC008C",
+  "background_color": "#FFFFFF",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "categories": ["business", "marketing", "advertising"],
+  "lang": "en-US",
+  "dir": "ltr",
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Get Quote",
+      "short_name": "Quote",
+      "description": "Get a custom quote for mobile billboard advertising",
+      "url": "/#contact",
+      "icons": [
+        {
+          "src": "/icon-quote-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Call Now",
+      "short_name": "Call",
+      "description": "Call MaxiMax Advertising at (561) 720-0521",
+      "url": "tel:+15617200521",
+      "icons": [
+        {
+          "src": "/icon-phone-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "View Services",
+      "short_name": "Services",
+      "description": "Explore our mobile billboard advertising services",
+      "url": "/#services",
+      "icons": [
+        {
+          "src": "/icon-services-96x96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}

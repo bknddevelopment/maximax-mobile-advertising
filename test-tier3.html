@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tier 3 Test - MaxiMax</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/design-system.css">
+    <link rel="stylesheet" href="styles/tier3-visuals.css">
+    
+    <style>
+        body {
+            background: #0A0A0A;
+            color: #fff;
+            padding: 40px;
+        }
+        .test-section {
+            margin-bottom: 60px;
+        }
+        h2 {
+            color: #EC008C;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Test Glass Morphism -->
+    <div class="test-section">
+        <h2>Glass Morphism Test</h2>
+        <div class="premium-glass" style="padding: 30px; border-radius: 20px; max-width: 500px;">
+            <h3 style="color: #00AEEF;">Premium Glass Effect</h3>
+            <p>This demonstrates the advanced glass morphism with noise texture overlay.</p>
+            <button class="btn-tier3 aurora">Test Button</button>
+        </div>
+    </div>
+    
+    <!-- Test 3D Card -->
+    <div class="test-section">
+        <h2>3D Card Effect Test</h2>
+        <div class="card-3d premium-glass" style="padding: 30px; border-radius: 20px; max-width: 400px;">
+            <h3>Interactive 3D Card</h3>
+            <p>Hover over this card to see the 3D transformation effect.</p>
+        </div>
+    </div>
+    
+    <!-- Test Typography -->
+    <div class="test-section">
+        <h2>Variable Typography Test</h2>
+        <h1 class="display-heading ultra-bold">MAXIMAX</h1>
+        <h2 class="headline-impact">Mobile Billboard Advertising</h2>
+        <p class="fluid-text">Testing fluid typography with variable fonts.</p>
+    </div>
+    
+    <!-- Test Button Styles -->
+    <div class="test-section">
+        <h2>Button Styles Test</h2>
+        <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+            <button class="btn-tier3 aurora">Aurora Button</button>
+            <button class="btn-tier3 magnetic aurora">Magnetic Button</button>
+            <button class="btn-liquid">Liquid Button</button>
+        </div>
+    </div>
+    
+    <!-- Test LED Grid -->
+    <div class="test-section">
+        <h2>LED Display Test</h2>
+        <div class="led-pixel-grid" style="max-width: 300px;">
+            <script>
+                // Generate LED pixels
+                for (let i = 0; i < 100; i++) {
+                  document.write('<div class="led-pixel"></div>');
+                }
+            </script>
+        </div>
+    </div>
+    
+    <!-- Test Animations -->
+    <div class="test-section">
+        <h2>Animation Tests</h2>
+        <div class="morph-shape" style="width: 150px; height: 150px;"></div>
+        <div class="neon-text" style="margin-top: 30px; font-size: 2rem; color: #EC008C;">
+            NEON TEXT EFFECT
+        </div>
+    </div>
+    
+    <!-- Particle Container -->
+    <div class="particle-container"></div>
+    
+    <!-- Scripts -->
+    <script src="js/tier3-interactions.js"></script>
+    <script>
+        console.log('Tier 3 features loaded successfully!');
+        
+        // Test LED animation
+        setTimeout(() => {
+          document.querySelectorAll('.led-pixel').forEach((pixel, i) => {
+            setTimeout(() => {
+              pixel.classList.add('active');
+              setTimeout(() => {
+                pixel.classList.remove('active');
+              }, 1000);
+            }, i * 50);
+          });
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxiMax - Offline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #EC008C, #00AEEF);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .offline-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .offline-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            position: relative;
+        }
+        
+        .truck-offline {
+            width: 100%;
+            height: 60px;
+            background: #333;
+            border-radius: 8px;
+            position: relative;
+            margin-top: 30px;
+        }
+        
+        .truck-offline::before {
+            content: 'MAXIMAX';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+        
+        .wheel {
+            width: 20px;
+            height: 20px;
+            background: #222;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -10px;
+        }
+        
+        .wheel:first-child {
+            left: 20px;
+        }
+        
+        .wheel:last-child {
+            right: 20px;
+        }
+        
+        .signal-lost {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 48px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+        }
+        
+        h1 {
+            color: #1A1A1A;
+            font-size: 32px;
+            margin-bottom: 16px;
+            font-weight: 800;
+        }
+        
+        p {
+            color: #6B7280;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+        
+        .offline-actions {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 14px 28px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #EC008C, #00AEEF);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(236, 0, 140, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #EC008C;
+            border: 2px solid #EC008C;
+        }
+        
+        .btn-secondary:hover {
+            background: #EC008C;
+            color: white;
+        }
+        
+        .offline-status {
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid #E5E7EB;
+        }
+        
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #FEE2E2;
+            border-radius: 999px;
+            color: #DC2626;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #DC2626;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        
+        .cached-notice {
+            margin-top: 24px;
+            padding: 16px;
+            background: #F0FDF4;
+            border-radius: 12px;
+            color: #166534;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="offline-container">
+        <div class="offline-icon">
+            <div class="signal-lost">📡</div>
+            <div class="truck-offline">
+                <div class="wheel"></div>
+                <div class="wheel"></div>
+            </div>
+        </div>
+        
+        <h1>You're Offline</h1>
+        <p>Our mobile billboards are still rolling through South Florida, but your internet connection seems to have taken a detour.</p>
+        
+        <div class="offline-actions">
+            <button class="btn btn-primary" onclick="tryReconnect()">Try Again</button>
+            <button class="btn btn-secondary" onclick="goBack()">Go Back</button>
+        </div>
+        
+        <div class="offline-status">
+            <div class="status-indicator">
+                <span class="status-dot"></span>
+                <span>No Internet Connection</span>
+            </div>
+        </div>
+        
+        <div class="cached-notice">
+            💡 Some pages may still be available offline thanks to our smart caching system.
+        </div>
+    </div>
+    
+    <script>
+        // Check connection status
+        function checkOnlineStatus() {
+          return navigator.onLine;
+        }
+        
+        // Try to reconnect
+        function tryReconnect() {
+          if (checkOnlineStatus()) {
+            window.location.reload();
+          } else {
+            alert('Still offline. Please check your internet connection.');
+          }
+        }
+        
+        // Go back to previous page
+        function goBack() {
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            window.location.href = '/';
+          }
+        }
+        
+        // Auto-reconnect when online
+        window.addEventListener('online', () => {
+          window.location.reload();
+        });
+        
+        // Periodic check for connection
+        setInterval(() => {
+          if (checkOnlineStatus()) {
+            window.location.reload();
+          }
+        }, 5000);
+    </script>
+</body>
+</html>

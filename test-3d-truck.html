@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxiMax 3D Truck Viewer Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        #truckContainer {
+            width: 90vw;
+            max-width: 1200px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            max-width: 1200px;
+        }
+        
+        .control-group {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .control-group h3 {
+            margin-bottom: 10px;
+            color: #333;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        button {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin: 2px;
+        }
+        
+        button:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button.active {
+            background: #4CAF50;
+        }
+        
+        input[type="color"] {
+            width: 50px;
+            height: 40px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 0 5px;
+        }
+        
+        input[type="text"] {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            width: 200px;
+        }
+        
+        .info {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        .info p {
+            color: #666;
+            margin: 5px 0;
+        }
+        
+        .info strong {
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            #truckContainer {
+                height: 400px;
+                width: 95vw;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-group {
+                width: 95%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🚛 MaxiMax 3D Truck Viewer Demo</h1>
+    
+    <div id="truckContainer"></div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <h3>View Controls</h3>
+            <button id="toggleRotate">Toggle Auto-Rotate</button>
+            <button id="resetCamera">Reset Camera</button>
+            <button id="toggleDay">Day/Night Mode</button>
+        </div>
+        
+        <div class="control-group">
+            <h3>Animations</h3>
+            <button id="toggleDriving">Start/Stop Driving</button>
+            <button id="screenshot">Take Screenshot</button>
+        </div>
+        
+        <div class="control-group">
+            <h3>Truck Customization</h3>
+            <label>Truck Color: <input type="color" id="truckColor" value="#2e3440"></label>
+            <label>Brand Color: <input type="color" id="brandColor" value="#ff6b6b"></label>
+        </div>
+        
+        <div class="control-group">
+            <h3>LED Display</h3>
+            <input type="text" id="ledText" placeholder="Enter LED text" value="MAXIMAX">
+            <button id="updateLED">Update Display</button>
+        </div>
+        
+        <div class="control-group">
+            <h3>Quality Settings</h3>
+            <button id="qualityHigh">High</button>
+            <button id="qualityMedium">Medium</button>
+            <button id="qualityLow">Low</button>
+        </div>
+    </div>
+    
+    <div class="info">
+        <p><strong>Mouse Controls:</strong> Left-click and drag to rotate | Scroll to zoom | Double-click to reset</p>
+        <p><strong>Keyboard:</strong> D = Day/Night | R = Auto-rotate | Space = Drive animation</p>
+    </div>
+    
+    <!-- Load Three.js and TruckViewer3D -->
+    <script src="js/TruckViewer3D.js"></script>
+    
+    <script>
+        // Initialize the 3D truck viewer
+        let viewer;
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create viewer with initial options
+            viewer = new TruckViewer3D('truckContainer', {
+                autoRotate: true,
+                enableZoom: true,
+                enablePan: false,
+                showLEDDisplay: true,
+                dayMode: true,
+                enableShadows: true,
+                quality: 'high',
+                enableDrivingAnimation: false,
+                enableWheelRotation: true,
+                enableLEDAnimations: true,
+                showStats: false // Set to true to show FPS counter
+            });
+            
+            // Setup control buttons
+            setupControls();
+        });
+        
+        function setupControls() {
+            // View controls
+            document.getElementById('toggleRotate').addEventListener('click', () => {
+                viewer.toggleAutoRotate();
+                document.getElementById('toggleRotate').classList.toggle('active');
+            });
+            
+            document.getElementById('resetCamera').addEventListener('click', () => {
+                viewer.resetCamera();
+            });
+            
+            document.getElementById('toggleDay').addEventListener('click', () => {
+                viewer.toggleDayMode();
+                document.getElementById('toggleDay').classList.toggle('active');
+            });
+            
+            // Animation controls
+            document.getElementById('toggleDriving').addEventListener('click', () => {
+                viewer.toggleDriving();
+                document.getElementById('toggleDriving').classList.toggle('active');
+            });
+            
+            document.getElementById('screenshot').addEventListener('click', () => {
+                const dataUrl = viewer.getScreenshot();
+                if (dataUrl) {
+                    const link = document.createElement('a');
+                    link.download = 'maximax-truck-3d.png';
+                    link.href = dataUrl;
+                    link.click();
+                }
+            });
+            
+            // Customization controls
+            document.getElementById('truckColor').addEventListener('change', (e) => {
+                viewer.setTruckColor(e.target.value);
+            });
+            
+            document.getElementById('brandColor').addEventListener('change', (e) => {
+                viewer.changeColors(null, [e.target.value, '#00AEEF', '#FFC107']);
+            });
+            
+            // LED Display
+            document.getElementById('updateLED').addEventListener('click', () => {
+                const text = document.getElementById('ledText').value || 'MAXIMAX';
+                viewer.changeLEDContent(text, 'MOBILE ADVERTISING');
+            });
+            
+            document.getElementById('ledText').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    const text = e.target.value || 'MAXIMAX';
+                    viewer.changeLEDContent(text, 'MOBILE ADVERTISING');
+                }
+            });
+            
+            // Quality settings
+            document.getElementById('qualityHigh').addEventListener('click', () => {
+                setQuality('high');
+            });
+            
+            document.getElementById('qualityMedium').addEventListener('click', () => {
+                setQuality('medium');
+            });
+            
+            document.getElementById('qualityLow').addEventListener('click', () => {
+                setQuality('low');
+            });
+        }
+        
+        function setQuality(quality) {
+            // Note: Quality changes require recreating the viewer
+            viewer.destroy();
+            viewer = new TruckViewer3D('truckContainer', {
+                autoRotate: true,
+                quality: quality,
+                enableShadows: quality !== 'low',
+                useLOD: quality !== 'low',
+                enableLEDAnimations: quality !== 'low'
+            });
+            
+            // Update button states
+            document.querySelectorAll('[id^="quality"]').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('quality' + quality.charAt(0).toUpperCase() + quality.slice(1)).classList.add('active');
+        }
+    </script>
+</body>
+</html>

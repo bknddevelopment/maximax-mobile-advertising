@@ -1,0 +1,39 @@
+# GitHub Pages Configuration for MaxiMax Advertising Website
+title: MaxiMax Advertising - South Florida's Premier Mobile Billboard Company
+description: Transform your advertising with MaxiMax's mobile billboards. Reach 50,000+ daily viewers across Miami-Dade, Broward & Palm Beach counties.
+baseurl: "" # Leave empty if deploying to username.github.io
+url: "https://yourusername.github.io" # Replace with your GitHub Pages URL
+
+# SEO and Social Media
+lang: en_US
+author: MaxiMax Advertising
+twitter:
+  username: maximaxadvertising
+  card: summary_large_image
+social:
+  name: MaxiMax Advertising
+  links:
+    - https://www.facebook.com/maximaxadvertising
+    - https://www.instagram.com/maximaxadvertising
+    - https://twitter.com/maximaxadvertising
+
+# GitHub Pages Settings
+theme: null # We're using custom HTML/CSS
+plugins: []
+
+# Performance
+compress_html:
+  clippings: all
+  comments: all
+  endings: all
+  startings: []
+  blanklines: false
+  profile: false
+
+# Security Headers (if using Cloudflare Pages or Netlify)
+headers:
+  /*:
+    X-Frame-Options: SAMEORIGIN
+    X-Content-Type-Options: nosniff
+    X-XSS-Protection: 1; mode=block
+    Referrer-Policy: strict-origin-when-cross-origin
