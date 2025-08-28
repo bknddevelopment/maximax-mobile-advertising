@@ -1,5 +1,5 @@
 # MaxiMax Advertising Robots.txt
-# https://maximaxmobileadvertising.com/
+# https://maximaxmobileadvertise.com/
 
 # Allow all search engines to crawl the site
 User-agent: *
@@ -56,7 +56,7 @@ User-agent: DotBot
 Disallow: /
 
 # Sitemap location
-Sitemap: https://maximaxmobileadvertising.com/sitemap.xml
+Sitemap: https://maximaxmobileadvertise.com/sitemap.xml
 
 # Host directive (for Yandex)
-Host: https://maximaxmobileadvertising.com
+Host: https://maximaxmobileadvertise.com
